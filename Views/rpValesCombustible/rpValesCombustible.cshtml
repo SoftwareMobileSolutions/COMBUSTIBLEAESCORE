@@ -1,0 +1,498 @@
+﻿@{
+    string gridid = "grid_valesCombustible",
+        idtemplatetoolbar = "template_rpvalesCombustible",
+        idtemplateDetail = "template_Detail_Grid_vales",
+        idrowtemplate = "idrowtmp",
+        idalttemplate = "idalttemplate";
+}
+
+<style type="text/css">
+    /* GRID */
+    .k-grid td, .k-link {
+        /* font-size: 12px !important;*/
+        font-size: 1em !important;
+    }
+
+    .k-grid td {
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .k-pager-info {
+        display: block !important;
+        font-weight: 600;
+    }
+
+    .k-grid td {
+        padding: 0;
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+
+    .k-toolbar.k-grid-toolbar {
+        width: 100% !important;
+    }
+
+    .k-detail-row td.k-hierarchy-cell {
+        display: none;
+    }
+
+    .aprobado {
+        background-color: #c3e8b3 !important;
+    }
+    .noaprobado {
+        background-color: #ffcba1 !important
+    }
+</style>
+<div id="">
+    <div id="@{@gridid}"></div>
+</div>
+
+<script id="@{@idtemplatetoolbar}" type="text/x-kendo-template">
+    <span class="k-searchbox k-input k-input-md k-rounded-md k-input-solid k-grid-search w-100">
+        <span class="k-input-icon k-icon k-i-search"></span><input autocomplete="off" placeholder="Buscar..." title="Search..." class="k-input-inner" />
+    </span>
+   @*   <div class="row w-100 position-absolute" @{ if (rolid == 2) { <text> style="width: 96% !important;" </text>} }>
+        <div class="@{ if (rolid == 1) { <text> col-10 </text> } else { <text>col-12 </text>}} w-100 pr-0 mr-0">
+            <span class="k-searchbox k-input k-input-md k-rounded-md k-input-solid k-grid-search w-100">
+                <span class="k-input-icon k-icon k-i-search"></span><input autocomplete="off" placeholder="Buscar..." title="Search..." class="k-input-inner" />
+            </span>
+        </div>
+        @{
+            if (rolid == 1)
+            {
+                <text>
+                    <div class="col pl-1 mr-0 pr-0">
+                        <button type="button" class="btn btn-sm k-button k-button-solid k-button-solid-base btnplus" onclick="fn_openModalAgregarViaje();">
+                            <span class="k-icon k-i-plus k-button-icon"></span>
+                        </button>
+                    </div>
+                </text>
+            }
+        } *@
+        
+    </div>
+</script>
+<script type="text/x-kendo-template" id="@{@idtemplateDetail}">
+    <div class="detailTabstrip">
+        <ul>
+            <li class="k-state-active"><b>Detalle Vales</b>
+            </li>
+        </ul>
+        <div>
+            <div class="gridDetailnumvales"></div>
+        </div>
+    </div>
+</script>
+
+<script id="@{@idrowtemplate}" type="text/x-kendo-tmpl">
+    <tr class="# if(aprobado) {#aprobado#} else {#noaprobado#}# k-master-row" data-uid="#: uid #">
+       <td class="# if(aprobado) {#aprobado#} else {#noaprobado#}#">
+            #: numvale #
+        </td>
+        <td>
+            #: placa #
+        </td>
+        <td>
+            #: total #
+        </td>
+        <td>
+            #: cantidadgalones #
+        </td>
+        <td>
+            #: odometro #
+        </td>
+        <td>
+            #: tipocombustible #
+        </td>
+        <td>
+            #: centrocosto #
+        </td>
+        <td>
+            #: gasolinera #
+        </td>
+        <td>
+            #: tipocarga #
+        </td>
+        <td>
+            #: userabre #
+        </td>
+        <td>
+            #: moment(fgeneracion).format("YYYY/MM/DD HH:mm:ss") #
+        </td>
+        <td>
+            #: usercierra #
+        </td>
+        <td>
+            #: moment(fcierre).format("YYYY/MM/DD HH:mm:ss") #
+        </td>
+        <td>
+            #: userautorizado #
+        </td>
+        <td>
+            #: moment(fautorizado).format("YYYY/MM/DD HH:mm:ss") #
+        </td>
+    </tr>
+</script>
+<script id="@{@idalttemplate}" type="text/x-kendo-tmpl">
+    <tr class="# if(aprobado) {#aprobado#} else {#noaprobado#}# k-alt k-master-row" data-uid="#: uid #">
+        <td class="# if(aprobado) {#aprobado#} else {#noaprobado#}#">
+            #: numvale #
+        </td>
+        <td>
+            #: placa #
+        </td>
+        <td>
+            #: total #
+        </td>
+        <td>
+            #: cantidadgalones #
+        </td>
+        <td>
+            #: odometro #
+        </td>
+        <td>
+            #: tipocombustible #
+        </td>
+        <td>
+            #: centrocosto #
+        </td>
+        <td>
+            #: gasolinera #
+        </td>
+        <td>
+            #: tipocarga #
+        </td>
+        <td>
+            #: userabre #
+        </td>
+        <td>
+            #: moment(fgeneracion).format("YYYY/MM/DD HH:mm:ss") #
+        </td>
+        <td>
+            #: usercierra #
+        </td>
+        <td>
+            #: moment(fcierre).format("YYYY/MM/DD HH:mm:ss") #
+        </td>
+        <td>
+            #: userautorizado #
+        </td>
+        <td>
+            #: moment(fautorizado).format("YYYY/MM/DD HH:mm:ss") #
+        </td>
+    </tr>
+</script>
+@* <script id="altRowTemplate" type="text/x-kendo-tmpl">
+    <tr class="k-alt" data-uid="#: uid #">
+        <td class="photo">
+            <img src="../content/web/Employees/#:data.EmployeeID#.jpg" alt="Kendo UI for jQuery Grid #: data.FirstName # #: data.LastName #" />
+        </td>
+        <td class="details">
+            <span class="name">#: FirstName# #: LastName# </span>
+            <span class="title">Title: #: Title #</span>
+        </td>
+        <td class="country">
+            #: Country #
+        </td>
+        <td class="employeeID">
+            #: EmployeeID #
+        </td>
+    </tr>
+</script> *@
+<script type="text/javascript">
+    $.extend({
+        rpValesCombustible: {
+            dataGridGlobal: [],
+            flagini: true,
+            idgrid: "@{@gridid}",
+            idtemplateDetail: "@{@idtemplateDetail}",
+            idtemplateDetailRow: "@{@idrowtemplate}",
+            idtemplateDetailAlt: "@{@idalttemplate}",
+            idtemplatetoolbar: "@{@idtemplatetoolbar}",
+            init: function() {
+                let _this = this;
+                _this.getDatagetData();
+                //_this.grid.create(_this.idgrid);
+            },
+            getDatagetData: function() {
+                let _this = this;
+
+                let fini = moment().startOf("month").format("YYYYMMDD HH:mm:ss");
+                let ffin = moment().endOf("month").format("YYYYMMDD HH:mm:ss");
+               
+                if (_this.flagini) {
+                    _this.flagini = false;
+                }
+
+                let arg = {
+                    fini: fini,
+                    ffin: ffin
+                };
+
+                $.get("../rpValesCombustible/getDataValesCombustible", arg, function (d) {
+                    for (var i = d.length; i--;) {
+
+
+
+                        d[i]["total"] = parseFloat((d[i]["total"]).toFixed(2));
+                        d[i]["cantidadgalones"] = parseFloat((d[i]["cantidadgalones"]).toFixed(2));
+                        d[i]["odometro"] = parseInt((d[i]["odometro"]).toFixed(2));
+                        d[i]["fgeneracion"] = moment(d[i]["fgeneracion"])._d;
+                        d[i]["fcierre"] = moment(d[i]["fcierre"])._d;
+                        d[i]["fautorizado"] = moment(d[i]["fautorizado"])._d;
+                    }
+                    _this.dataGridGlobal = d;
+                    let grdata = _.groupBy(d, "placa");
+                    let datagrMain = [];
+                    for(let a in grdata) {
+                        let ds = grdata[a];
+                        datagrMain.push({
+                            placa: a,
+                            canvales: ds.length,
+                            total: $._combustible.getTotal(ds, "total"),
+                            cantidadtotalgalones: $._combustible.getTotal(ds, "cantidadgalones"),
+                            arg: ds
+                        });
+                    }
+                    _this.grid.create(_this.idgrid, datagrMain, _this);
+                    //console.log();
+                });
+            },
+            grid: {
+                create: function (id, datos, _thismain) {
+                    let _this = this;
+                    console.log(id, datos);
+                    $("[id='" + id + "']").html("");
+                    $("[id='" + id + "']").kendoGrid({
+                        mobile: "phone",
+                        //toolbar: ["excel", "pdf", "search"],
+                        toolbar: [
+                            { template: kendo.template($("[id='" + _thismain.idtemplatetoolbar + "']").html()) }
+                        ],
+                        dataSource: {
+                            pageSize: 50,
+                            schema: {
+                                model: {
+                                    fields: {
+                                        placa: { type: "string" },
+                                        canvales: { type: "number" },
+                                        total: { type: "number" },
+                                        cantidadtotalgalones: { type: "number" }
+                                    }
+                                }
+                            }, 
+                            data: datos
+                        },
+                        filterable: {
+                            extra: false
+                        },
+                        filterable: false,
+                        //height: 450,
+                        sortable: true,
+                        groupable: false,
+                        columnMenu: false,
+                        reorderable: true,
+                        resizable: true,
+                        scrollable: true,
+                        pageable: {
+                            allPages: true,
+                            pageSizes: true,
+                            previousNext: true,
+                            input: false,
+                            numeric: false,
+                            refresh: false,
+                            info: true
+                        },
+                        selectable: "single, row",
+                        change: function (e) {
+                           // Grid_viajeSolicitado_dataitem = e !== null ? e.sender.dataItem(e.sender.select()) : null;
+                        },
+                        dataBound: function () {
+                            var data = [];
+                            var grid = this;
+                            var dataSource = grid.dataSource;
+                            var allData = dataSource.data();
+                            var filters = dataSource.filter();
+                            var query = new kendo.data.Query(allData);
+                            data = query.filter(filters).data;
+                            /*
+                            $("[id='Grid_viajeSolicitado'] .k-grid-content tbody tr:not(.k-grouping-row)").dblclick(function (e) {
+                                if (!$(e.target).is(":input")) {
+                                    var ds = Grid_viajeSolicitado_dataitem;
+                                }
+                            });*/
+                        },
+                        columns:
+                            [
+                                {
+                                    field: "placa",
+                                    title: "<b>Placa</b>",
+                                    template: "#: placa # ",
+                                    sticky: true
+                                },
+                                {
+                                    field: "canvales",
+                                    title: "<b>Cant. Vales</b>"
+                                },
+                                {
+                                    field: "total",
+                                    title: "<b>Total ($)</b>"
+                                },
+                                {
+                                    field: "cantidadtotalgalones",
+                                    title: "<b>Cant. Galones</b>"
+                                }
+                            ],
+                        detailTemplate: kendo.template($("#" + _thismain.idtemplateDetail).html()),
+                        detailInit: _this.fn_gridDetalle
+                    });
+                    //$("[id='" + id + "']").data("kendoGrid").dataSource.data();
+                    console.log(datos);
+                }, 
+                @* grid de detalle *@
+                fn_gridDetalle: function (e) {
+                    let _this = $.rpValesCombustible;
+                    let detailRow = e.detailRow;
+                    let tab = detailRow.find(".detailTabstrip").kendoTabStrip({
+                        animation: {
+                            open: { effects: "fadeIn" }
+                        }
+                    });
+
+                    let datos = e.data.arg;
+                    detailRow.find(".gridDetailnumvales").kendoGrid({
+                        mobile: "phone",
+                        dataSource: {
+                            pageSize: 50,
+                            schema: {
+                                model: {
+                                    fields: {
+                                        numvale: { type: "number" },
+                                        placa: { type: "string" },
+                                        total: { type: "number" },
+                                        cantidadgalones: { type: "number" },
+                                        odometro: { type: "number" },
+                                        tipocombustible: { type: "string" },
+                                        centrocosto: { type: "string" },
+                                        gasolinera: { type: "string" },
+                                        tipocarga: { type: "string" },
+                                        userabre: { type: "string" },
+                                        fgeneracion: { type: "date" },
+                                        usercierra: { type: "string" },
+                                        fcierre: { type: "string" },
+                                        aprobado: { type: "number" },
+                                        userautorizado: { type: "string" },
+                                        fautorizado: { type: "string" }
+                                    }
+                                }
+                            },
+                            data: datos
+                        },
+                        filterable: {
+                            extra: false
+                        },
+                        filterable: false,
+                        height: 180,
+                        sortable: false,
+                        groupable: false,
+                        columnMenu: false,
+                        reorderable: false,
+                        resizable: false,
+                        scrollable: true,
+                        pageable: {
+                            allPages: false,
+                            pageSizes: false,
+                            previousNext: false,
+                            input: false,
+                            numeric: false,
+                            refresh: false,
+                            info: true
+                        },
+                        selectable: "single, row",
+                        change: function (e) {
+                            let datos = e !== null ? e.sender.dataItem(e.sender.select()) : null;;
+                            console.log(datos);
+                            // Grid_viajeSolicitado_dataitem = 
+                        },
+                        dataBound: function () {
+                            for (var i = 0; i < this.columns.length; i++) {
+                                this.autoFitColumn(i);
+                            }
+                        },
+                        columns:
+                        [
+                            {
+                                field: "numvale",
+                                title: "<b># Vale</b>",
+                                template: "#: numvale # ",
+                                sticky: true
+                            },
+                            {
+                                field: "placa",
+                                title: "<b>Placa</b>"
+                            },
+                            {
+                                field: "total",
+                                title: "<b>Total</b>"
+                            },
+                            {
+                                field: "cantidadgalones",
+                                title: "<b>Cant. Gal.</b>"
+                            },
+                            {
+                                field: "odometro",
+                                title: "<b>Odometro</b>"
+                            },
+                            {
+                                field: "tipocombustible",
+                                title: "<b>Tipo Comb.</b>"
+                            },
+                            {
+                                field: "centrocosto",
+                                title: "<b>Centro Costo</b>"
+                            },
+                            {
+                                field: "gasolinera",
+                                title: "<b>Gasolinera</b>"
+                            },
+                            {
+                                field: "tipocarga",
+                                title: "<b>Tipo Carga</b>"
+                            },
+                            {
+                                field: "userabre",
+                                title: "<b>Usuario Abre</b>"
+                            },
+                            {
+                                field: "fgeneracion",
+                                title: "<b>Fecha Generado</b>",
+
+                            },
+                            {
+                                field: "usercierra",
+                                title: "<b>Usuario Cierra</b>"
+                            },
+                            {
+                                field: "fcierre",
+                                title: "<b>Fecha Cierra</b>"
+                            },
+                            {
+                                field: "userautorizado",
+                                title: "<b>Usuario Autoriza</b>"
+                            },
+                            {
+                                field: "fautorizado",
+                                title: "<b>Fecha Autorizado</b>"
+                            }
+                        ],
+                        rowTemplate: kendo.template($("#" + _this.idtemplateDetailRow).html()),
+                        altRowTemplate: kendo.template($("#" + _this.idtemplateDetailAlt).html()),
+                    });
+                }
+            }
+        }
+    });  
+    (() => $.rpValesCombustible.init())();
+</script>
+

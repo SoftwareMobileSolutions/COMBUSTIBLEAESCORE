@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>COMBUSTIBLEAESCORE</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    @*Core Content Start*@
+
+    <link href="https://cdn.kendostatic.com/2022.2.621/styles/kendo.default-main.min.css" rel="stylesheet" type="text/css" />
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
+	<script src="https://cdn.kendostatic.com/2022.2.621/js/kendo.all.min.js"></script>
+	<script src="https://cdn.kendostatic.com/2022.2.621/js/kendo.aspnetmvc.min.js"></script>
+
+    <script src="~/lib/moment/moment.js"></script>
+    <script src="~/lib/moment/moment-with-locales.js"></script>
+    <script src="~/lib/underscore/underscore.js"></script>
+
+
+@*Core Content End*@
+@{
+    var culture = System.Globalization.CultureInfo.CurrentCulture.ToString();
+    var path = Url.Content("~/lib/kendo-ui/js/messages/kendo.messages." + culture + ".min.js");
+}  
+
+    <script type="text/javascript">
+        kendo.culture("@culture");
+        $.extend({
+            _combustible: {
+                init: function () {
+                    let _this = this;
+                    _this.loadpage();
+                },
+                loadpage: function (url) {
+                    $.get(url, {}, function (d) {
+                        $("#renderdiv").html(d);
+                    });
+                },
+                getMax: function (arr, prop) {
+                    var max = Math.max.apply(Math, arr.map(function (o) { return o[prop]; }));
+                    return arr.find(function (o) { return o[prop] === max; });
+                },
+                //Obtener el objeto array con el valor mínimo de una propiedad:  || USO: var maxPpg = getMin(objeto, "propiedadname");
+                getMin: function (arr, prop) {
+                    var min = Math.min.apply(Math, arr.map(function (o) { return o[prop]; }))
+                    return arr.find(function (o) { return o[prop] === min; });
+                },
+                //Obtener el objeto array con el valor promedio de una propiedad:  || USO: var maxPpg = getAvg(objeto, "propiedadname");
+                getAvg: function (arr, prop) {
+                    var avg = arr.map(function (a) { return a[prop]; }).reduce(function (a, b) { return a + b; }, 0) / arr.length;
+                    return avg;
+                },
+                //Obtener el objeto array con el valor total de una propiedad || USO var totalPpg = getTotal(objeto, "propiedadname");
+                getTotal: function (arr, prop) {
+                    var total = arr.map(function (a) { return a[prop]; }).reduce(function (a, b) { return a + b; }, 0);
+                    return total;
+                }
+            }
+        });
+        $._combustible.loadpage("../rpValesCombustible/rpValesCombustible");
+    </script>
+</head>
+<body>
+    <div id="renderdiv">
+        @RenderBody()
+    </div>       
+</body>
+</html>
